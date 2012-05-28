@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>groupToggle - Examples</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script type="text/javascript" src="lib/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="src/jquery.groupToggle.js"></script>
+</head>
+
+<body>
+<div id="content">
+    <div class="wrapper">
+        <div class="title-box">
+            <h1>groupToggle</h1>
+            A jQuery plugin for checking/unchecking a group of checkboxes
+        </div>
+        <h2>Examples</h2>
+
+            <h3>1. Make a group toggle using filter</h3>
+            <p>
+                The simpliest way to create a toggle is to call groupToggle with a filter. Please note that
+                the plugin always applies 'input:checkbox' selector, so you don't need to specify it in the filter.
+            </p>
+            <div class="box">
+                <input type="checkbox" id="group_toggle1" />
+                <label for="group_toggle1">Select/unselect all</label>
+                <hr/>
+                <input type="checkbox" class="group1" id="chk1_1" /><label for="chk1_1">One</label>
+                <input type="checkbox" class="group1" id="chk1_2" /><label for="chk1_2">Two</label>
+                <input type="checkbox" class="group1" id="chk1_3" /><label for="chk1_3">Three</label>
+            </div>
+            <code>
+                $('#group_toggle1').groupToggle('.group1');<br/>
+                <span class="comment">// The same as:<br/>
+                // $('#group_toggle1').groupToggle({filter: '.group1'});</span>
+            </code>
+            <hr/>
+
+
+            <h3>2. Make a group toggle for checkboxes by specifying their parent</h3>
+            <p>
+                Another way to create a group toggle is to specify a parent element of checkboxes. Just pass
+                parent selector or parent jQuery object as a value of 'groupParent' option.
+            </p>
+            <div class="box">
+                <input type="checkbox" id="group_toggle2_1" />
+                <label for="group_toggle2_1">Check/uncheck all from group 1</label>&nbsp;&nbsp;&nbsp;
+                <span class="button button-gray" id="group_toggle2_2">Check/uncheck all from group 2</span>
+                <hr/>
+                <div id="chk_group1" class="box">
+                    <strong>Group 1: </strong>
+                    <input type="checkbox" id="chk2_1" /><label for="chk2_1">One</label>
+                    <input type="checkbox" id="chk2_2" /><label for="chk2_2">Two</label>
+                    <input type="checkbox" id="chk2_3" /><label for="chk2_3">Three</label>
+                </div>
+                
+                <div id="chk_group2" class="box">
+                    <strong>Group 2: </strong>
+                    <input type="checkbox" id="chk2_4" /><label for="chk2_4">One</label>
+                    <input type="checkbox" id="chk2_5" /><label for="chk2_5">Two</label>
+                    <input type="checkbox" id="chk2_6" /><label for="chk2_6">Three</label>
+                </div>
+            </div>
+
+            <code>
+                $('#group_toggle2_1').groupToggle({groupParent: '#chk_group1'});
+                $('#group_toggle2_2').groupToggle({<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;groupParent: $('#chk_group2'),<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;toggleOnClass: 'toggleOn',<br/>
+                &nbsp;&nbsp;&nbsp;&nbsp;toggleOffClass: 'toggleOff'<br/>
+                });
+            </code>
+            <hr/>
+
+
+            <h3>3. Plugin methods</h3>
+
+            <div class="box">
+
+                <button class="button button-gray" onclick="updateTable(rowsPerPage);return false;">Update table</button>
+                <button class="button button-gray" onclick="$('#table_select_all').groupToggle('check')">Check all</button>
+                <button class="button button-gray" onclick="$('#table_select_all').groupToggle('uncheck')">Uncheck all</button>
+                <hr/>
+
+                <table class="styled" id="example_table" width="100%">
+                    <thead>
+                    <tr>
+                        <th width="20%">
+                            <input type="checkbox" id="table_select_all" />
+                            <label for="table_select_all">Select all</label>
+                        </th>
+                        <th>Title</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+            
+            <code>
+                <span class="comment">// Check the whole gorup</span><br/>
+                $('#table_select_all').groupToggle('check');<br/>
+                <br/>
+                <span class="comment">// Uncheck the whole group</ span><br/>
+                $('#table_select_all').groupToggle('uncheck');<br/>
+                <br/>
+                <span class="comment">// Update the group and refresh the toggle state</span><br/>
+                $('#table_select_all').groupToggle('update');
+            </code>
+            
+            <hr/>
+            <h2>Plugin options</h2>
+            <table class="styled">
+                <thead>
+                <tr>
+                    <th width="25%">Option</th>
+                    <th width="20%">Default</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><var>filter</var></td>
+                    <td><var>null</var></td>
+                    <td><i>optional.</i> Specifies filter which is applied to selected 
+                    checkbox inputs.
+                    </td>
+                </tr>
+                <tr>
+                    <td><var>groupParent</var></td>
+                    <td><var>null</var></td>
+                    <td><i>optional.</i> Specifies a parent for the group of checkboxes. 
+                    All checkboxes will be selected only within specified parent. This parmeter 
+                    can be either a css selector or a jQuery object.
+                    </td>
+                </tr>
+                <tr>
+                    <td><var>toggleOffClass</var></td>
+                    <td><var>''</var></td>
+                    <td><i>optional.</i> Specifies a class which will be added to non-checkbox 
+                        toggle element when it's unchecked.
+                    </td>
+                </tr>
+                <tr>
+                    <td><var>toggleOnClass</var></td>
+                    <td><var>'checked'</var></td>
+                    <td><i>optional.</i> Specifies a class which will be added to non-checkbox 
+                        toggle element when it's checked.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            
+            <h2>Plugin methods</h2>
+            <table class="styled">
+                <thead>
+                <tr>
+                    <th width="25%">Method</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><var>check</var></td>
+                    <td>Checks all group checkboxes.
+                    </td>
+                </tr>
+                <tr>
+                    <td><var>uncheck</var></td>
+                    <td>Unchecks all group checkboxes.
+                    </td>
+                </tr>
+                <tr>
+                    <td><var>update</var></td>
+                    <td>Updates the list of checkboxes in the group (see <var>filter</var> 
+                    and <var>groupParent</var> options). Method also updates the toggle state 
+                    according to the state of the whole group of checkboxes.                    
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+    <br/>
+</div>
+
+<script type="text/javascript">
+
+    // Example 1
+    $('#group_toggle1').groupToggle('.group1');
+    
+    // Example 2
+    $('#group_toggle2_1').groupToggle({groupParent: '#chk_group1'});
+    $('#group_toggle2_2').groupToggle({
+        groupParent: $('#chk_group2'),
+        toggleOnClass: 'toggleOn',
+        toggleOffClass: 'toggleOff'
+    });
+
+    // Example 3
+    var $tableToggle = $('#table_select_all').groupToggle({groupParent:'#example_table tbody'});
+
+
+    // -----------------------------
+    // Helper functions
+
+
+    var rowsPerPage = 5;
+
+    updateTable(rowsPerPage);
+
+    // Fills table with new checkboxes.
+    function updateTable(count)
+    {
+        // Use global var.
+        if (window.rowID === undefined)
+            window.rowID = 1;
+
+        var $tbody = $('#example_table tbody').empty();
+        while(count-- > 0) {
+            $('<tr><td><input type="checkbox" /></td><td>Row number ' + rowID++ + '</td></tr>').appendTo($tbody);
+        }
+
+        // It's important to call 'update' method of the toggle to let it 
+        // refresh the list of checkboxes in the group.
+        $tableToggle.groupToggle('update');
+    }
+
+</script>
+</body>
+</html>
