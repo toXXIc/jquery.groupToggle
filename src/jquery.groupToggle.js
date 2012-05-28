@@ -2,10 +2,12 @@
  * jQuery groupToggle plugin
  * A jQuery plugin for creating a toggle that checks/unchecks a group of checkboxes.
  *
+ * https://github.com/toXXIc/jquery.groupToggle
+ *
  * Copyright (c) 2012 Basil Gren
  * Released under the MIT license.
  *
- * @version 1.0.0, 08-May-2012
+ * @version 1.0.0, 29-May-2012
  */
 
 (function ($) {
@@ -127,7 +129,7 @@
      * @param options
      */
     function Plugin(elem, options) {
-
+        // TODO: Move methods to prototype.
 
         this.elem = elem;
         this.options = options;
