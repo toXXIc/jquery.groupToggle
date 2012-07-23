@@ -76,9 +76,8 @@ describe("GroupToggle", function() {
 
 
         it('treats second argument as options', function() {
-            initPlugin('#group1 .chk', {groupAutoupdate: true, toggleOnClass: 'toggle-on'});
+            initPlugin('#group1 .chk', {toggleOnClass: 'toggle-on'});
 
-            expect(pluginObj.options.groupAutoupdate).toBeTruthy();
             expect(pluginObj.options.toggleOnClass).toBe('toggle-on');
         });
         
@@ -106,8 +105,14 @@ describe("GroupToggle", function() {
     
 
     // ---------------
-    describe('behavior', function ()
+    describe('plugin', function ()
     {
+        var callbackStubs = {
+            onBeforeChange: function() {},
+            onChanged: function() {}
+        };
+
+
         it('checks and unchecks linked group of checkboxes', function()
         {
             applyPlugin();
@@ -148,7 +153,7 @@ describe("GroupToggle", function() {
 
 
         it("sets group checked using method 'check'", function (){
-            applyPlugin({groupAutoupdate: true});
+            applyPlugin();
             $(GROUP_TOGGLE_ID).groupToggle('check');
 
             expect($('#group1 input.chk:checkbox')).toBeChecked();
@@ -157,12 +162,27 @@ describe("GroupToggle", function() {
         
         
         it("sets group unchecked using method 'uncheck'", function (){
-            applyPlugin({groupAutoupdate: true});
+            applyPlugin();
             $(GROUP_TOGGLE_ID).groupToggle('check').groupToggle('uncheck');
 
             expect($('#group1 input.chk:checkbox')).toBeUnchecked();
             expect($('#group_toggle1')).toBeUnchecked();
         });
+
+
+        it("calls fnBeforeChange and fnChanged", function(){
+            spyOn(callbackStubs, 'onBeforeChange');
+            spyOn(callbackStubs, 'onChanged');
+
+            applyPlugin({onBeforeChange: callbackStubs.onBeforeChange,
+                         onChanged: callbackStubs.onChanged});
+
+            $(GROUP_TOGGLE_ID).groupToggle('check').groupToggle('uncheck');
+
+            expect(callbackStubs.onBeforeChange.calls.length).toEqual(2);
+            expect(callbackStubs.onChanged.calls.length).toEqual(2);
+        });
+
     });
 });
 
